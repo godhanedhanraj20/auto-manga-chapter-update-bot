@@ -88,7 +88,7 @@ graph TD
 
     subgraph "External Integration"
         SCRP -->|Scrape| WEB[35+ Sites]
-        DL -->|Upload| CBX[Catbox Hosting]
+        DL -->|Upload| CBX[Image Hosting (Catbox/Telegraph)]
     end
 ```
 
@@ -110,6 +110,8 @@ graph TD
 3. **Config**:
    Create a `.env` file and fill in your `API_ID`, `API_HASH`, `BOT_TOKEN`, `MONGO_DB_URI`, and `OWNER_ID`.
 
+   Optional (recommended for Catbox stability): `CATBOX_USERHASH`.
+
 4. **Blast off**:
    ```bash
    python bot.py
@@ -128,6 +130,7 @@ graph TD
    - `BOT_TOKEN` - Get from [@BotFather](https://t.me/BotFather)
    - `MONGO_DB_URI` - Your MongoDB connection string
    - `OWNER_ID` - Your Telegram user ID
+   - `CATBOX_USERHASH` *(optional)* - Catbox account userhash for more reliable uploads
 3. Deploy and scale the worker dyno.
 
 ### Manual Heroku CLI
@@ -149,6 +152,7 @@ heroku config:set API_HASH=your_api_hash
 heroku config:set BOT_TOKEN=your_bot_token
 heroku config:set MONGO_DB_URI=your_mongo_uri
 heroku config:set OWNER_ID=your_user_id
+heroku config:set CATBOX_USERHASH=your_catbox_userhash  # optional
 
 # Deploy
 git push heroku main
