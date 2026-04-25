@@ -431,14 +431,14 @@ async def search_listener(c, m):
     elif state in ("await_banner", "await_banner_upload"):
         if not m.photo:
             return await m.reply("Please send an image or click Skip.", reply_markup=KM([[KB("[SKIP]", "skip_banner")]]))
-        msg = await m.reply("<blockquote>Uploading banner to Catbox...</blockquote>")
+        msg = await m.reply("<blockquote>Uploading banner image...</blockquote>")
         try:
             from services.catbox import Catbox
             import os
             p = await m.download()
             url = await Catbox.upload(p)
             if os.path.exists(p): os.remove(p)
-            if not url: return await edit_msg(msg, "✗ Catbox upload failed. Try again or skip.")
+            if not url: return await edit_msg(msg, "✗ Image upload failed. Try again or skip.")
             await finalize_sub(m, uid, data, url, msg)
         except Exception as e:
             await edit_msg(msg, f"Err: {e}")
@@ -532,7 +532,7 @@ async def fetch_banner(c, q):
                     [KB("[SKIP] No Banner", "skip_banner")]
                 ])
             )
-        await edit_msg(q.message, "<blockquote>Uploading to Catbox...</blockquote>")
+        await edit_msg(q.message, "<blockquote>Uploading image...</blockquote>")
         with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as f:
             f.write(img_bytes)
             tmp_path = f.name
@@ -541,7 +541,7 @@ async def fetch_banner(c, q):
         if not url:
             return await edit_msg(
                 q.message,
-                "✗ Catbox upload failed.",
+                "✗ Image upload failed.",
                 reply_markup=KM([
                     [KB("[RETRY] Fetch Again", "fetch_banner")],
                     [KB("[MANUAL] Upload", "manual_banner")],
